@@ -8,13 +8,13 @@
 
 
 # 목차
-1. [프로젝트 소개](#프로젝트-소개)  
-2. [iOS Team](#ios-team)  
-3. [기술 스택](#기술-스택)  
-4. [코딩 컨벤션](#코딩-컨벤션)  
-5. [브랜치 전략](#브랜치-전략)  
-6. [폴더링](#폴더링)  
-7. [트러블 슈팅](#트러블-슈팅)  
+1. [프로젝트 소개]
+2. [iOS Team]  
+3. [기술 스택]  
+4. [코딩 컨벤션]  
+5. [브랜치 전략]  
+6. [폴더링]  
+7. [트러블 슈팅]  
 </br>
 
 ![Frame 1000002423](https://github.com/OMZigak/iOS/assets/144984293/e8373f56-2bf7-4f99-ba68-a8eb94c31c9e)
@@ -119,11 +119,14 @@ suyeon 브랜치: 개발 작업용 (default 브랜치)
 
 <details>
 <summary> </summary>
-1. 
-2.
-3.
-4.
-
+1. 직렬화 이슈 해결
+  [링크](https://github.com/OMZigak/KKUYOS/pull/407)
+2. Pulse 커스텀 구현 및 성능 개선
+  [링크](https://github.com/OMZigak/KKUYOS/pull/409)
+3. FCM 구현
+  링크
+4. SOLID 의거 코드 원칙 수립
+  링크
 
 </details>
 

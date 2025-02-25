@@ -6,18 +6,35 @@
 ```
 [꾸물꿈에 대해 더 자세히 알고 싶다면? 프로젝트 설계 및 주요 기능 소개 보기✔️](https://arrow-frog-4b9.notion.site/9c6895231a2346d0b5b9a15570f47b22?pvs=4)
 
+
+# 목차
+1. [프로젝트 소개](#프로젝트-소개)  
+2. [iOS Team](#ios-team)  
+3. [기술 스택](#기술-스택)  
+4. [코딩 컨벤션](#코딩-컨벤션)  
+5. [브랜치 전략](#브랜치-전략)  
+6. [폴더링](#폴더링)  
+7. [트러블 슈팅](#트러블-슈팅)  
 </br>
 
 ![Frame 1000002423](https://github.com/OMZigak/iOS/assets/144984293/e8373f56-2bf7-4f99-ba68-a8eb94c31c9e)
+
+<details>
+<summary> </summary>
 
 |김진웅</br>[@JinUng41](https://github.com/JinUng41)|이지훈</br>[@hooni0918](https://github.com/hooni0918)|이유진</br>[@youz2me](https://github.com/youz2me)|김수연</br>[@mmaybei](https://github.com/mmaybei)|
 |:---:|:---:|:---:|:---:|
 |<img src = "https://github.com/user-attachments/assets/9ec0d2f4-3515-4d2c-8433-b0326a06b6ac" width ="250">|<img src = "https://github.com/user-attachments/assets/513a88e4-db78-4e11-9c42-6dda99bfe6fa" width ="250">|<img src = "https://github.com/user-attachments/assets/566a0a8c-c673-4650-b9f4-3b74d7443aa9" width ="250">|<img src = "https://github.com/user-attachments/assets/0c785026-a0c1-4e1a-bc28-fc12072b724e" width ="250">|
 |`약속 추가 플로우`, `모임 상세`|`푸시 알림`, `온보딩`, `마이페이지`|`모임 추가 플로우`, `약속 상세`|`홈`, `내 모임`, `준비 정보 입력`|
+
+</details>
 </br>
 
-![Frame 1000002428](https://github.com/OMZigak/iOS/assets/144984293/8c3ba259-6b8d-47b9-9f5d-97e8bc48ccd7)
 
+![Frame 1000002428](https://github.com/OMZigak/iOS/assets/144984293/8c3ba259-6b8d-47b9-9f5d-97e8bc48ccd7)
+<details>
+<summary> library </summary> 
+  
 |library|description|
 |:---:|:---:|
 |**FirebaseSDK**|FCM을 이용한 푸쉬 알림을 구현하기 위함|
@@ -30,7 +47,7 @@
 |**Then**|UI 구현에 있어, 클로저를 통해 인스턴스를 초기화하기 위함|
 |**Kingfisher**|이미지 캐싱 처리 및 UI 성능 개선을 위함|
 </br>
-
+</details>
 
 ![Frame 1000002425](https://github.com/OMZigak/iOS/assets/144984293/7975890a-1ffc-4b51-84e8-8102c454c52e)
 [꾸물아요들의 코딩컨벤션 보기✔️](https://github.com/OMZigak/iOS_Styleguide)
@@ -39,6 +56,10 @@
 
 
 ![Frame 1000002426](https://github.com/OMZigak/iOS/assets/144984293/fc19dbd0-5755-4a67-87c0-8ab4b1558ea2)
+
+<details>
+<summary> </summary>
+
 ```
 main 브랜치: 최종 제출용
 suyeon 브랜치: 개발 작업용 (default 브랜치)
@@ -49,9 +70,16 @@ suyeon 브랜치: 개발 작업용 (default 브랜치)
 4. 작업 완료 후 PR 작성, 체크리스트를 통해 어떤 것을 해결한 이슈인지 명시
 5. 코드리뷰를 통해 모든 구성원이 approve하였을 때 suyeon 브랜치로 머지
 ```
+</details>
+
 </br>
 
 ![Frame 1000002427](https://github.com/OMZigak/iOS/assets/144984293/89e48d23-a134-4ad1-8c9d-bf01769a2f46)
+
+
+<details>
+<summary> </summary>
+  
 ```
 📁 Kkumulkkum
 ├── 📁 Application
@@ -84,3 +112,20 @@ suyeon 브랜치: 개발 작업용 (default 브랜치)
 │   ├── Info.plist
 ├── 📁 Network
 ```
+
+</details>
+
+![Frame 1171276151](https://github.com/user-attachments/assets/a79a75bc-92d6-4745-a613-275b3ffb9770)
+
+<details>
+<summary> </summary>
+1. 
+2.
+3.
+4.
+
+
+</details>
+
+
+

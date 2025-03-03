@@ -238,8 +238,11 @@ Instruments를 통한 프로파일링에서 개선을 확인했습니다:
 
 이러한 최적화를 통해 토큰 갱신 처리 시간이 요청 수에 관계없이 일정하게 유지되어 앱의 전반적인 반응성과 성능을 향상시켯습니다.
 
- <img width="1000" alt="개선이전" src="https://github.com/user-attachments/assets/100a87f4-d93c-4b50-b78d-de70ecf2d1d3" />
-<img width="1000" alt="개선이후" src="https://github.com/user-attachments/assets/cfef6122-17dc-4234-b722-ba4c368d6022" />
+### 개선 전후 비교
+<p align="center">
+  <img width="40%" alt="개선 이전" src="https://github.com/user-attachments/assets/100a87f4-d93c-4b50-b78d-de70ecf2d1d3" />
+  <img width="40%" alt="개선 이후" src="https://github.com/user-attachments/assets/cfef6122-17dc-4234-b722-ba4c368d6022" />
+</p>
 
   <br>
 

@@ -247,8 +247,130 @@ Instruments를 통한 프로파일링에서 개선을 확인했습니다:
   <br>
 
   
-4. SOLID 의거 코드 원칙 수립
-  링크
+# 로그인 프로세스의 중복 API 호출 및 네비게이션 문제 해결
+  
+링크
+
+## 문제 상황
+
+앱의 로그인 프로세스에서 네트워크 응답 지연 시 다음 문제가 발생했습니다:
+
+1. **중복 API 호출**: 첫 설치 후 첫 로그인/회원가입 버튼 클릭 시 네트워크 응답이 지연되는 동안 사용자가 로그인 버튼을 여러 번 탭하면 동일한 API가 중복 호출됨
+2. **중복 알림 표시**: 오류 발생 시 동일한 에러 알림이 여러 개 연속해서 표시됨
+3. **불안정한 화면 전환**: 로그인 성공 후 화면 전환이 여러 번 시도되어 UI가 깜빡이거나 충돌 발생
+
+## RxSwift 적용 고려 및 포기 이유
+
+초기에는 RxSwift를 활용하여 이 문제를 해결하고자 했으나 다음 이유로 대안을 모색했습니다:
+
+1. **이벤트 특성 불일치**: `PublishRelay`는 지속적인 이벤트 스트림에 최적화되어 있어 로그인과 같은 단일 이벤트 처리에 다소 적합하지 않음
+2. **구독 제약**: `BehaviorSubject`나 `ReplaySubject`는 이벤트 값을 캐싱할 수 있으나, 완료 후에는 새로운 구독이 불가능한 제약 존재
+3. **타입 복잡성**: 로그인 컨텍스트(카카오 vs 애플)를 유지하기 위해 복잡한 타입 정의와 연산자 체인이 필요
+4. **기존 코드 호환성**: 프로젝트의 기존 콜백 패턴을 크게 변경하지 않고 해결하고자 함
+
+> 참고: debounce, removeDuplicates, take(1) 등의 RxSwift 연산자로도 해결 가능하지만, 기존 옵저버블 객체를 최대한 변경하지 않는 방향으로 접근했습니다.
+> 
+
+## 해결 방법: ReactorKit의 Pulse 개념 구현
+
+ReactorKit의 일회성 이벤트 처리 메커니즘인 Pulse를 영감 받아 커스텀 Pulse 클래스를 구현했습니다:
+
+```swift
+class Pulse<T> {
+    typealias Listener = (T) -> Void
+
+    private var value: T?
+    private var listeners: [Listener] = []
+    private var isConsumed = false
+
+    // 이벤트는 한 번만 발생하도록 보장
+    func emit(_ value: T) {
+        guard !isConsumed else { return }
+
+        self.value = value
+        isConsumed = true
+
+        listeners.forEach { $0(value) }
+        listeners.removeAll()
+    }
+
+    // 이벤트가 이미 발생했더라도 새 구독자에게 전달
+    func subscribe(_ listener: @escaping Listener) {
+        if let value = value, isConsumed {
+            listener(value)
+        } else {
+            listeners.append(listener)
+        }
+    }
+
+    // 약한 참조로 구독 등록
+    func subscribe<O: AnyObject>(with object: O, listener: @escaping (O, T) -> Void) {
+        let wrappedListener: Listener = { [weak object] value in
+            guard let object = object else { return }
+            listener(object, value)
+        }
+
+        if let value = value, isConsumed {
+            wrappedListener(value)
+        } else {
+            listeners.append(wrappedListener)
+        }
+    }
+}
+
+```
+
+## 핵심 구현 요소
+
+1. **이벤트 타입 분리**: 로그인 결과, 네비게이션, 오류를 별도의 Pulse 인스턴스로 관리
+    
+    ```swift
+    private(set) var loginResultPulse = Pulse<Result<SocialLoginResponseModel, Error>>()
+    private(set) var navigationPulse = Pulse<LoginNavigation>()
+    private(set) var errorPulse = Pulse<String>()
+    
+    ```
+    
+2. **이벤트 간 연결**: 에러 발생 시 자동으로 네비게이션 처리
+    
+    ```swift
+    private func setupBindings() {
+        errorPulse.subscribe { [weak self] errorMessage in
+            if !errorMessage.isEmpty {
+                self?.navigationPulse.emit(.showError(message: errorMessage))
+            }
+        }
+    }
+    
+    ```
+    
+3. **중복 네비게이션 방지**: ViewController에서 `isNavigating` 플래그 활용
+    
+    ```swift
+    viewModel.navigationPulse.subscribe(with: self) { owner, navigation in
+        // 중복 네비게이션 방지
+        guard !owner.isNavigating else { return }
+        owner.isNavigating = true
+    
+        switch navigation {
+        case .toMain:
+            owner.navigateToMainScreen()
+        // 다른 네비게이션 케이스 처리...
+        }
+    }
+    
+    ```
+    
+
+## 개선 결과
+
+1. **API 중복 호출 방지**: 사용자가 로그인 버튼을 여러 번 탭해도 네비게이션 이벤트는 한 번만 처리됨
+2. **알림 중복 표시 해결**: 오류 알림이 한 번만 표시되어 사용자 경험 개선
+3. **안정적인 화면 전환**: 로그인 성공 시 화면 전환이 정확히 한 번만 발생하도록 보장
+4. **기존 코드 유지**: 기존의 콜백 패턴과 자연스럽게 통합되어 코드 변경 최소화
+5. **메모리 관리 개선**: 약한 참조를 통한 자동 메모리 관리로 메모리 누수 가능성 감소
+
+
 <br>
 </details>
 
